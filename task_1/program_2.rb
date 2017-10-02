@@ -1,8 +1,8 @@
 print "Введите основание треугольника "
-a = Float(gets.chomp)
+a = gets.chomp.to_f
 print "Введите высоту треугольника "
-h = Float(gets.chomp)
+h = gets.chomp.to_f
 
 s = 0.5 * a * h
 
-puts "Площадь треугольника равна #{s.to_s}"
+puts "Площадь треугольника равна #{s}"

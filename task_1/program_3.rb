@@ -1,43 +1,40 @@
 print "Введите длинну первой стороны треугольника "
-a = Float(gets.chomp)
+a = gets.chomp.to_f
 print "Введите длинну второй стороны треугольника "
-b = Float(gets.chomp)
+b = gets.chomp.to_f
 print "Введите длинну третьей стороны треугольника "
-c = Float(gets.chomp)
+c = gets.chomp.to_f
 
 is_ravnobedren = false
 is_ravnostoron = false
 is_prayamougoln = false
 
 if a == b && b == c && a == c
-	is_ravnostoron = true
+  is_ravnostoron = true
 end
 
 if a == b || b == c || c == a
-	is_ravnobedren = true 
+  is_ravnobedren = true 
 end
 
-if(!is_ravnostoron)
-	
-	if(a >= b && a >= c)
-		is_prayamougoln = b**2 + c**2 == a**2
-	elsif(b >= a && b >= c)
-		is_prayamougoln = a**2 + c**2 == b**2
-	else
-		is_prayamougoln = b**2 + a**2 == c**2
-	end
+if !is_ravnostoron
+  sides = [a, b, c]
+  gipotenuza = sides.delete(sides.max)
+  katet_1 = sides.pop
+  katet_2 = sides.pop
+  is_prayamougoln = katet_1**2 + katet_2**2 == gipotenuza**2
 end
 
 if is_prayamougoln
-	puts "Треугольник является прямоугольным"
+  puts "Треугольник является прямоугольным"
 else
-	puts "Треугольник не является прямоугольным"
+  puts "Треугольник не является прямоугольным"
 end
 
 if is_ravnobedren
-	puts "Треугольник является равнобедренным"
+  puts "Треугольник является равнобедренным"
 end
 
 if is_ravnostoron
-	puts "Треугольник является равносторонним"
+  puts "Треугольник является равносторонним"
 end
