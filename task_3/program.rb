@@ -1,10 +1,8 @@
 
 class Route
-  attr_reader :start_station, :end_station, :stations
+  attr_reader :stations
 
   def initialize(start_station, end_station)
-    @start_station = start_station
-    @end_station = end_station
     @stations = [start_station, end_station ]
   end
 
@@ -13,20 +11,20 @@ class Route
   end
 
   def remove_station(station)
-    @stations.delete(station) unless [@start_station, @end_station].include? station.name
+    @stations.delete(station) unless [@stations.first, @stations.last].include? station
   end
 
   def show_stations
     puts "Маршрут: "
     @stations.each { |station| puts station.name }
-    puts nil
   end
 
 end
 
 
 class Train
-  attr_reader :current_station, :speed, :number, :type, :carriages_count
+  attr_accessor :speed
+  attr_reader :current_station_index, :number, :type, :carriages_count
 
   def initialize(number, type, carriages_count)
     @number = number
@@ -34,16 +32,7 @@ class Train
     @speed = 0
     @carriages_count = carriages_count
   end
-  
-  def speed=(speed)
-    if @route.is_a? Route
-      @speed = speed
-      puts "Поезд движется со скоростью #{speed}"
-    else
-        puts "Поезду необходимо сначала задать маршрут"
-    end
-  end
-      
+        
   def stop
     @speed = 0
     puts "Поезд остановился"
@@ -59,37 +48,39 @@ class Train
   end
   
   def remove_carriage
-    if @speed == 0
+    if @speed == 0 && @carriages_count > 0
       @carriages_count -= 1
       puts "От поезда под номером #{@number} отсоединен вагон, всего вагонов #{@carriages_count}"
+    elsif(@carriages_count == 0)
+      puts "Нечего отцеплять"
     else
       puts "Невозможно отцепить вагон во время движения поезда!"
     end
   end
   
   def prev_station
-    @current_station != @start_station ? @route.stations[@route.stations.index(@current_station) - 1] : @start_station
+    @current_station_index -= 1 if @current_station_index > 0
   end
   
   def next_station
-    @current_station != @end_station ? @route.stations[@route.stations.index(@current_station) + 1] : @end_station
+    @current_station_index += 1 if @current_station_index < @route.stations.index(@route.stations.last)
   end
       
   def move_forward
-    if @speed > 0 && @current_station != @end_station
-      @current_station.remove_train(self)
-      @current_station = @route.stations[@route.stations.index(@current_station) + 1]
-      @current_station.add_train(self)
+    if @speed > 0 && @current_station_index < @route.stations.index(@route.stations.last)
+      @route.stations[@current_station_index].remove_train(self)
+      self.next_station
+      @route.stations[@current_station_index].add_train(self)
     else
       puts "Поезд на конечной станции"
     end
   end
   
   def move_back
-    if @speed > 0 && @current_station != @start_station
-      @current_station.remove_train(self)
-      @current_station = @route.stations[@route.stations.index(@current_station) - 1]
-      @current_station.add_train(self)
+    if @speed > 0 && @current_station_index > 0
+      @route.stations[@current_station_index].remove_train(self)
+      self.prev_station
+      @route.stations[@current_station_index].add_train(self)
     else
       puts "Поезд на начальной станции"
     end
@@ -97,10 +88,8 @@ class Train
   
   def set_route(route)
     @route = route
-    @current_station = route.start_station
-    @start_station = route.start_station
-    @end_station = route.end_station
-    puts "Поезду #{@number} установлен новый маршрут следующий #{route.start_station.name} - #{route.end_station.name}"
+    @current_station_index = 0
+    puts "Поезду #{@number} установлен новый маршрут следующий #{route.stations.first.name} - #{route.stations.last.name}"
   end
 end
 
