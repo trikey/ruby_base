@@ -1,3 +1,0 @@
-class FreightCarriage < Carriage
-
-end

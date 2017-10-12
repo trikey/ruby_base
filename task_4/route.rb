@@ -1,16 +1,24 @@
 class Route
-  attr_reader :stations
+  attr_reader :stations, :number
 
-  def initialize(start_station, end_station)
+  def initialize(number, start_station, end_station)
     @stations = [start_station, end_station ]
+    @number = number
+    puts "Маршрут создан #{@stations.first.name} - #{@stations.last.name}"
   end
 
   def add_station(station)
-    @stations.insert(-2, station) unless @stations.include? station
+    unless @stations.include? station
+      @stations.insert(-2, station) 
+      puts "Станция добавлена"
+    end
   end
 
   def remove_station(station)
-    @stations.delete(station) unless [@stations.first, @stations.last].include? station
+    unless [@stations.first, @stations.last].include? station
+      @stations.delete(station)
+      puts "Станция удалена"
+    end
   end
 
   def show_stations

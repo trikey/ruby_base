@@ -21,6 +21,6 @@ class Station
   end
   
   def show_trains
-    @trains.each { |train| puts "Поезд №#{train.number} #{train.name} - #{train.type}" }
+    @trains.each { |train| puts "Поезд №#{train.number} - #{train.type}" }
   end
 end
