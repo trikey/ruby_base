@@ -15,9 +15,11 @@ class Train
   end
   
   def add_carriage(carriage)
-    if @speed == 0
+    if @speed == 0 && carriage.type == self.type
       @carriages << carriage
       puts "К поезду под номером #{@number} подсоединен вагон, всего вагонов #{@carriages.length}"
+    elsif carriage.type != train.type
+      puts "Некорректный тип вагона"
     else
       puts "Невозможно прицепить вагон во время движения поезда!"
     end
