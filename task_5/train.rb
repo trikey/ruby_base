@@ -3,10 +3,10 @@ class Train
   include InstanceCounter
   attr_accessor :speed, :carriages
   attr_reader :current_station_index, :number, :type, :route
-  @@trains = []
+  @@trains = {}
 
   def self.find(number)
-    train = @@trains.detect { |train| train.number == number }
+    @@trains[number]
   end
   
   def initialize(number, type)
@@ -14,7 +14,7 @@ class Train
     @type = type
     @speed = 0
     @carriages = []
-    @@trains << self
+    @@trains[number] = self
     register_instance
   end
   
