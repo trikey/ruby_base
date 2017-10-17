@@ -30,7 +30,6 @@ class Route
   
     def validate!
       raise "Номер маршрута не может быть пустым, попробуйте еще раз." if @number.empty?
-      raise "Не введены станции" if @stations.any? { |station| !station.nil? }
       raise "Некорректная начальная станция" if @stations.first.nil?
       raise "Некорректная конечная станция" if @stations.last.nil?
     end
