@@ -5,6 +5,7 @@ class Route
   def initialize(number, start_station, end_station)
     @stations = [start_station, end_station ]
     @number = number
+    validate!
     puts "Маршрут создан #{@stations.first.name} - #{@stations.last.name}"
   end
 
@@ -12,16 +13,12 @@ class Route
     raise "Эта станция уже есть в маршруте!" unless @stations.include? station
     @stations.insert(-2, station) 
     puts "Станция добавлена"
-    rescue RuntimeError => e
-      puts "Ошибка #{e.message}"
   end
 
   def remove_station(station)
     raise "Первую и последнюю станции маршрута удалять нельзя!" if [@stations.first, @stations.last].include?(station)
     @stations.delete(station)
     puts "Станция удалена"
-    rescue RuntimeError => e
-      puts "Ошибка: #{e.message}"
   end
 
   def show_stations

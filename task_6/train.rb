@@ -32,8 +32,6 @@ class Train
     raise "Некорректный тип вагона" if carriage.type != self.type
     @carriages << carriage
     puts "К поезду под номером #{@number} подсоединен вагон, всего вагонов #{@carriages.length}"
-    rescue RuntimeError => e
-      puts "Ошибка: #{e.message}" 
   end
   
   def remove_carriage(carriage)
@@ -42,8 +40,6 @@ class Train
     raise "Невозможно отцепить вагон во время движения поезда!" unless @speed.zero? 
     @carriages.delete(carriage)
     puts "От поезда под номером #{@number} отсоединен вагон, всего вагонов #{@carriages.length}"
-    rescue RuntimeError => e
-      puts "Ошибка: #{e.message}" 
   end
   
   def prev_station
@@ -65,8 +61,6 @@ class Train
     self.current_station.remove_train(self)
     @current_station_index += 1
     self.current_station.add_train(self)
-    rescue RuntimeError => e
-      puts "Ошибка: #{e.message}" 
   end
   
   def move_back
@@ -76,8 +70,6 @@ class Train
     self.current_station.remove_train(self)
     @current_station_index -= 1
     self.current_station.add_train(self)
-    rescue RuntimeError => e
-      puts "Ошибка #{e.message}"
   end
   
   def set_route(route)
