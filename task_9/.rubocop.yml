@@ -1,0 +1,14 @@
+AllCops:
+  DisplayCopNames: true
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 121
+
+Metrics/MethodLength:
+  Max: 30
+
+Metrics/AbcSize:
+  Max: 30
