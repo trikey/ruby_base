@@ -5,18 +5,18 @@ module Validation
   end
 
   module ClassMethods
-    attr_accessor :tests
+    attr_accessor :validations
 
     def validate(*args)
       args ||= []
-      self.tests ||= []
-      self.tests << args
+      self.validations ||= []
+      self.validations << { 'variable': args[0], 'method': args[1], 'options': args[2] }
     end
   end
 
   module InstanceMethods
     def validate!
-      self.class.tests.each { |val| self.send val[1].to_sym, instance_variable_get("@#{val[0]}".to_sym), val[2] }
+      self.class.validations.each { |val| self.send val[:method].to_sym, instance_variable_get("@#{val[:variable]}".to_sym), val[:options] }
     end
 
     def valid?
@@ -37,7 +37,7 @@ module Validation
     end
 
     def type(value, type)
-      raise 'Неверный класс!' if value.class != type
+      raise 'Неверный класс!' if value.is_a? type
     end
   end
 end
