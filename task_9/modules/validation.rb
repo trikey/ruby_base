@@ -10,7 +10,7 @@ module Validation
     def validate(*args)
       args ||= []
       self.validations ||= []
-      self.validations << { 'variable': args[0], 'method': args[1], 'options': args[2] }
+      self.validations << { :variable => args[0], :method => args[1], :options => args[2] }
     end
   end
 
